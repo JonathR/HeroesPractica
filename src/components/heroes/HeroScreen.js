@@ -1,16 +1,51 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { Redirect, useParams } from 'react-router-dom';
 import { getHeroesById } from '../../selectors/getHeroeByld';
 
 export const HeroScreen = () => {
   const { heroeId } = useParams();
 
   const hero = getHeroesById(heroeId);
-  console.log(hero);
+
+  if (!hero) {
+    return <Redirect to="/" />;
+  }
+
+  const {
+    superhero,
+    publisher,
+    alter_ego,
+    first_appearance,
+    characters,
+  } = hero;
 
   return (
-    <div>
-      <h1>HeroScreen</h1>
+    <div className="row mt-5">
+      <div className="col-4">
+        <img
+          src={`../assets/heroes/${heroeId}.jpg`}
+          alt={superhero}
+          className="img-thumbnail"
+        />
+
+        <div className="col-8">
+          <h3>{superhero}</h3>
+          <ul className="list-group list-group-flush">
+            <li className="list-group-item">
+              {' '}
+              <b>Alter ego: </b> {alter_ego}{' '}
+            </li>
+            <li className="list-group-item">
+              {' '}
+              <b>Publisher: </b> {publisher}{' '}
+            </li>
+            <li className="list-group-item">
+              {' '}
+              <b>First appearance</b> {first_appearance}{' '}
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
   );
 };
